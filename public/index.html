@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LO MEJOR DE ONCE — Ahora en Zona Sur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f3f6ee;
+    --ink:#1e2e22;
+    --ink-soft:#1e2e22b0;
+    --card:#ffffff;
+    --accent:#e2661c;
+    --accent-dark:#bf4f10;
+    --leaf:#2f7d5a;
+    --leaf-soft:#2f7d5a1a;
+    --line:rgba(30,46,34,0.14);
+    --danger:#c0392b;
+    --font-display:'Fraunces',serif;
+    --font-body:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);}
+  ::selection{background:var(--accent);color:#fff;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:var(--ink);color:var(--bg);padding:0;position:relative;overflow:hidden;
+  }
+  .hero-inner{max-width:1180px;margin:0 auto;padding:40px 24px 34px;position:relative;z-index:2;}
+  .hero-eyebrow{
+    font-family:var(--font-body);font-weight:600;font-size:13px;letter-spacing:.02em;color:var(--accent);
+    margin-bottom:10px;
+  }
+  .hero h1{
+    font-family:var(--font-display);font-weight:600;font-size:clamp(32px,6vw,54px);line-height:1.02;margin:0 0 14px;
+  }
+  .hero p{font-size:15.5px;color:#f3f6eecc;max-width:480px;line-height:1.5;margin:0 0 22px;}
+  .hero-leaf{
+    position:absolute;right:-60px;top:-40px;width:340px;height:340px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #3f9269, #1e2e22 70%);opacity:.55;z-index:1;
+  }
+  .hero-leaf2{
+    position:absolute;right:120px;bottom:-90px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, #e2661c, #1e2e22 72%);opacity:.4;z-index:1;
+  }
+
+  /* ---------- TOP CONTROLS ---------- */
+  .controls{
+    max-width:1180px;margin:0 auto;padding:0 24px;display:flex;gap:12px;align-items:center;
+    margin-top:-26px;position:relative;z-index:3;
+  }
+  .search-wrap{position:relative;flex:1;}
+  .search-wrap svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:17px;height:17px;stroke:var(--ink-soft);}
+  #buscador{
+    width:100%;padding:15px 18px 15px 44px;border-radius:14px;border:1px solid var(--line);background:var(--card);
+    font-family:var(--font-body);font-size:15px;color:var(--ink);box-shadow:0 8px 24px rgba(30,46,34,0.08);
+  }
+  #buscador:focus{outline:none;border-color:var(--leaf);}
+  #buscador::placeholder{color:#1e2e2270;}
+
+  /* ---------- LAYOUT ---------- */
+  .layout{max-width:1180px;margin:0 auto;padding:26px 24px 100px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(30,46,34,0.10);}
+  .thumb{height:130px;background:var(--leaf-soft);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .thumb img{width:100%;height:100%;object-fit:cover;}
+  .thumb .no-img{font-size:26px;opacity:.5;}
+  .card-body{padding:14px;display:flex;flex-direction:column;gap:6px;flex:1;}
+  .name{font-family:var(--font-body);font-weight:600;font-size:14px;line-height:1.3;min-height:36px;}
+  .row-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:auto;gap:6px;}
+  .price{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--ink);}
+  .stock-tag{font-size:11px;color:var(--ink-soft);}
+  .add-btn{
+    margin-top:6px;width:100%;padding:10px;border:none;border-radius:10px;background:var(--accent);color:#fff;
+    font-family:var(--font-body);font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s;
+  }
+  .add-btn:hover{background:var(--accent-dark);}
+  .add-btn:disabled{background:#1e2e2222;color:#1e2e2266;cursor:not-allowed;}
+  .empty{grid-column:1/-1;text-align:center;padding:70px 20px;color:var(--ink-soft);border:1.5px dashed var(--line);border-radius:16px;}
+  .btn-cargar-mas{
+    display:block;width:100%;margin-top:18px;padding:13px;border:1.5px dashed var(--line);border-radius:12px;
+    background:transparent;color:var(--leaf);font-family:var(--font-body);font-weight:600;font-size:13.5px;cursor:pointer;
+  }
+  .btn-cargar-mas:hover{border-color:var(--leaf);background:var(--leaf-soft);}
+  .pagina-info{text-align:center;margin-top:16px;font-size:12px;color:var(--ink-soft);}
+
+  /* ---------- FLOATING CART BUTTON ---------- */
+  .cart-fab{
+    position:fixed;right:20px;bottom:20px;z-index:40;background:var(--ink);color:#fff;border:none;border-radius:999px;
+    padding:15px 22px;display:flex;align-items:center;gap:10px;font-family:var(--font-body);font-weight:600;font-size:14px;
+    cursor:pointer;box-shadow:0 10px 30px rgba(30,46,34,0.35);
+  }
+  .cart-fab .badge{
+    background:var(--accent);color:#fff;border-radius:999px;padding:2px 8px;font-size:12.5px;
+  }
+
+  /* ---------- CART PANEL ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(30,46,34,0.45);z-index:50;display:none;}
+  .cart-panel{
+    position:fixed;top:0;right:0;bottom:0;width:100%;max-width:420px;background:var(--bg);z-index:51;
+    display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease;
+  }
+  .cart-panel.open{transform:translateX(0);}
+  .overlay.open{display:block;}
+  .cart-header{padding:20px 22px;background:var(--ink);color:#fff;display:flex;justify-content:space-between;align-items:center;}
+  .cart-header h2{font-family:var(--font-display);font-size:20px;margin:0;font-weight:600;}
+  .cart-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1;}
+  .cart-body{flex:1;overflow-y:auto;padding:18px 22px;}
+  .cart-empty{text-align:center;color:var(--ink-soft);padding:50px 10px;}
+  .cart-line{padding:12px 0;border-bottom:1px solid var(--line);}
+  .cl-top{display:flex;justify-content:space-between;gap:8px;}
+  .cl-name{font-weight:600;font-size:14px;}
+  .cl-remove{background:none;border:none;color:var(--danger);font-size:12px;cursor:pointer;padding:0;}
+  .cl-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+  .qty-ctrl{display:flex;align-items:center;gap:10px;}
+  .qty-ctrl button{width:26px;height:26px;border:1px solid var(--line);background:#fff;border-radius:8px;cursor:pointer;font-size:14px;}
+  .cl-total{font-weight:600;font-family:var(--font-display);}
+  .cart-footer{padding:18px 22px 22px;border-top:1px solid var(--line);background:var(--card);}
+  .t-row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px;color:var(--ink-soft);}
+  .t-row.grand{font-size:20px;font-weight:700;color:var(--ink);font-family:var(--font-display);}
+  .checkout-form{display:none;flex-direction:column;gap:10px;margin-top:14px;}
+  .checkout-form.show{display:flex;}
+  .checkout-form label{font-size:12px;font-weight:600;color:var(--ink-soft);margin-bottom:-4px;}
+  .checkout-form input,.checkout-form textarea{
+    padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--font-body);font-size:14px;
+    background:#fff;color:var(--ink);
+  }
+  .checkout-form textarea{resize:vertical;min-height:50px;}
+  .btn-primary{
+    margin-top:14px;padding:14px;border:none;border-radius:12px;background:var(--accent);color:#fff;
+    font-family:var(--font-body);font-weight:700;font-size:15px;cursor:pointer;width:100%;
+  }
+  .btn-primary:hover{background:var(--accent-dark);}
+  .btn-primary:disabled{background:#1e2e2222;color:#1e2e2266;cursor:not-allowed;}
+  .btn-secondary{
+    margin-top:8px;padding:11px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--ink);
+    font-family:var(--font-body);font-size:13.5px;cursor:pointer;width:100%;
+  }
+  .msg{font-size:12.5px;text-align:center;margin-top:10px;min-height:16px;color:var(--leaf);}
+  .msg.err{color:var(--danger);}
+
+  .confirmacion{display:none;text-align:center;padding:30px 10px;}
+  .confirmacion.show{display:block;}
+  .confirmacion .check{font-size:40px;margin-bottom:10px;}
+  .confirmacion h3{font-family:var(--font-display);font-size:22px;margin:0 0 8px;}
+  .confirmacion p{color:var(--ink-soft);font-size:14px;line-height:1.5;}
+
+  footer{text-align:center;padding:30px 20px 50px;color:var(--ink-soft);font-size:12.5px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-leaf"></div>
+  <div class="hero-leaf2"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Envíos a domicilio</div>
+    <h1>Lo mejor de Once,<br>ahora en zona sur.</h1>
+    <p>Elegí tus productos, dejanos tu dirección y coordinamos la entrega. Sin registrarte, sin vueltas.</p>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <input type="text" id="buscador" placeholder="Buscar producto..." oninput="onBuscar()">
+  </div>
+</div>
+
+<main class="layout">
+  <div class="grid" id="grid"><div class="empty">Cargando productos...</div></div>
+  <div id="load-more"></div>
+</main>
+
+<footer>LO MEJOR DE ONCE — Ahora en Zona Sur. Los pedidos se coordinan por contacto directo tras confirmarse.</footer>
+
+<button class="cart-fab" id="cart-fab" onclick="abrirCarrito()">
+  🛒 Tu pedido <span class="badge" id="fab-count">0</span>
+</button>
+
+<div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
+<aside class="cart-panel" id="cart-panel">
+  <div class="cart-header">
+    <h2>Tu pedido</h2>
+    <button class="cart-close" onclick="cerrarCarrito()">×</button>
+  </div>
+  <div class="cart-body" id="cart-body">
+    <div class="cart-empty" id="cart-empty-msg">Todavía no agregaste productos.</div>
+    <div id="cart-items"></div>
+
+    <div class="checkout-form" id="checkout-form">
+      <label>Nombre y apellido</label>
+      <input type="text" id="c-nombre" placeholder="Tu nombre">
+      <label>Teléfono</label>
+      <input type="text" id="c-telefono" placeholder="Ej: 11 2233-4455">
+      <label>Dirección de entrega</label>
+      <input type="text" id="c-direccion" placeholder="Calle, número, localidad">
+      <label>Notas (opcional)</label>
+      <textarea id="c-notas" placeholder="Referencias, horario preferido, etc."></textarea>
+    </div>
+
+    <div class="confirmacion" id="confirmacion">
+      <div class="check">✅</div>
+      <h3>¡Pedido recibido!</h3>
+      <p id="confirmacion-detalle"></p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cart-footer">
+    <div class="t-row"><span>Artículos</span><span id="t-cantidad">0</span></div>
+    <div class="t-row grand"><span>Total</span><span id="t-total">$0.00</span></div>
+    <button class="btn-primary" id="btn-continuar" onclick="irADatos()">Continuar</button>
+    <button class="btn-primary" id="btn-confirmar" style="display:none;" onclick="confirmarPedido()">Confirmar pedido</button>
+    <button class="btn-secondary" id="btn-volver" style="display:none;" onclick="volverAlCarrito()">Volver al carrito</button>
+    <div class="msg" id="cart-msg"></div>
+  </div>
+</aside>
+
+<script>
+const PAGINA_SIZE = 24;
+let items = [], page = 1, total = 0, query = '', buscadorTimeout = null;
+let carrito = {};
+let etapa = 'carrito'; // carrito | datos | confirmado
+
+function escapeHtml(s){ return String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+async function api(path, opts={}){
+  const res = await fetch(path, { ...opts, headers: { 'Content-Type':'application/json', ...(opts.headers||{}) } });
+  let data = null;
+  try{ data = await res.json(); }catch(e){}
+  if(!res.ok){ const err = new Error((data && data.error) || 'Error de servidor'); err.status = res.status; throw err; }
+  return data;
+}
+
+function onBuscar(){
+  clearTimeout(buscadorTimeout);
+  buscadorTimeout = setTimeout(()=>{ query = document.getElementById('buscador').value.trim(); cargarPagina(1); }, 300);
+}
+
+async function cargarPagina(p){
+  const grid = document.getElementById('grid');
+  if(p===1) grid.innerHTML = '<div class="empty">Cargando productos...</div>';
+  try{
+    const params = new URLSearchParams({ q: query, page: p, limit: PAGINA_SIZE });
+    const data = await api('/api/productos?'+params.toString());
+    page = p; total = data.total;
+    items = p===1 ? data.productos : items.concat(data.productos);
+    render();
+  }catch(e){ grid.innerHTML = '<div class="empty">No se pudo cargar el catálogo. Probá de nuevo en un momento.</div>'; }
+}
+
+function render(){
+  const grid = document.getElementById('grid');
+  if(items.length===0){
+    grid.innerHTML = `<div class="empty">${query ? 'No encontramos productos para "'+escapeHtml(query)+'".' : 'Todavía no hay productos cargados.'}</div>`;
+    document.getElementById('load-more').innerHTML = ''; return;
+  }
+  grid.innerHTML = items.map(p=>{
+    const stock = Number(p.cantidad)||0;
+    const enCarrito = carrito[p.id] ? carrito[p.id].cantidad : 0;
+    const disponible = stock - enCarrito;
+    return `<div class="card">
+      <div class="thumb">${p.imagen ? `<img src="${p.imagen}" alt="${escapeHtml(p.nombre)}" loading="lazy">` : `<span class="no-img">🛍️</span>`}</div>
+      <div class="card-body">
+        <div class="name">${escapeHtml(p.nombre)}</div>
+        <div class="row-bottom"><span class="price">$${Number(p.precio||0).toFixed(2)}</span></div>
+        <button class="add-btn" ${disponible<=0?'disabled':''} onclick="agregar(${p.id})">${disponible<=0?'Sin stock':'Agregar'}</button>
+      </div>
+    </div>`;
+  }).join('');
+  const loadMore = document.getElementById('load-more');
+  if(items.length < total){
+    loadMore.innerHTML = `<button class="btn-cargar-mas" onclick="cargarPagina(page+1)">Ver más productos (${total - items.length} restantes)</button>`;
+  } else {
+    loadMore.innerHTML = `<div class="pagina-info">Mostrando ${items.length} de ${total} productos</div>`;
+  }
+}
+
+function agregar(id){
+  const p = items.find(x=>x.id===id);
+  if(!p) return;
+  const enCarrito = carrito[id] ? carrito[id].cantidad : 0;
+  if(enCarrito >= Number(p.cantidad||0)) return;
+  if(!carrito[id]) carrito[id] = { producto:p, cantidad:0 };
+  carrito[id].cantidad += 1;
+  renderCarrito(); render();
+}
+function cambiarCantidad(id, delta){
+  if(!carrito[id]) return;
+  const p = carrito[id].producto;
+  const nueva = carrito[id].cantidad + delta;
+  if(nueva <= 0){ delete carrito[id]; } else if(nueva > Number(p.cantidad||0)){ return; } else { carrito[id].cantidad = nueva; }
+  renderCarrito(); render();
+}
+function quitar(id){ delete carrito[id]; renderCarrito(); render(); }
+
+function renderCarrito(){
+  const entries = Object.entries(carrito);
+  const cantidadTotal = entries.reduce((s,[,v])=>s+v.cantidad,0);
+  const totalMonto = entries.reduce((s,[,v])=>s+v.cantidad*Number(v.producto.precio||0),0);
+  document.getElementById('fab-count').textContent = cantidadTotal;
+  document.getElementById('t-cantidad').textContent = cantidadTotal;
+  document.getElementById('t-total').textContent = '$'+totalMonto.toFixed(2);
+  document.getElementById('btn-continuar').disabled = entries.length===0;
+
+  const cont = document.getElementById('cart-items');
+  const emptyMsg = document.getElementById('cart-empty-msg');
+  if(entries.length===0){ emptyMsg.style.display='block'; cont.innerHTML=''; return; }
+  emptyMsg.style.display='none';
+  cont.innerHTML = entries.map(([id,v])=>{
+    const sub = v.cantidad*Number(v.producto.precio||0);
+    return `<div class="cart-line">
+      <div class="cl-top"><span class="cl-name">${escapeHtml(v.producto.nombre)}</span><button class="cl-remove" onclick="quitar(${id})">Quitar</button></div>
+      <div class="cl-bottom"><div class="qty-ctrl"><button onclick="cambiarCantidad(${id},-1)">−</button><span>${v.cantidad}</span><button onclick="cambiarCantidad(${id},1)">+</button></div>
+      <span class="cl-total">$${sub.toFixed(2)}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function abrirCarrito(){ document.getElementById('overlay').classList.add('open'); document.getElementById('cart-panel').classList.add('open'); }
+function cerrarCarrito(){ document.getElementById('overlay').classList.remove('open'); document.getElementById('cart-panel').classList.remove('open'); }
+
+function irADatos(){
+  if(Object.keys(carrito).length===0) return;
+  etapa = 'datos';
+  document.getElementById('cart-items').style.display='none';
+  document.getElementById('checkout-form').classList.add('show');
+  document.getElementById('btn-continuar').style.display='none';
+  document.getElementById('btn-confirmar').style.display='block';
+  document.getElementById('btn-volver').style.display='block';
+  abrirCarrito();
+}
+function volverAlCarrito(){
+  etapa = 'carrito';
+  document.getElementById('cart-items').style.display='block';
+  document.getElementById('checkout-form').classList.remove('show');
+  document.getElementById('btn-continuar').style.display='block';
+  document.getElementById('btn-confirmar').style.display='none';
+  document.getElementById('btn-volver').style.display='none';
+  document.getElementById('cart-msg').textContent='';
+}
+
+async function confirmarPedido(){
+  const nombre = document.getElementById('c-nombre').value.trim();
+  const telefono = document.getElementById('c-telefono').value.trim();
+  const direccion = document.getElementById('c-direccion').value.trim();
+  const notas = document.getElementById('c-notas').value.trim();
+  const msg = document.getElementById('cart-msg');
+  if(!nombre || !telefono || !direccion){
+    msg.className='msg err'; msg.textContent='Completá nombre, teléfono y dirección.'; return;
+  }
+  const payload = {
+    items: Object.entries(carrito).map(([id,v])=>({ id: Number(id), cantidad: v.cantidad })),
+    cliente: { nombre, telefono, direccion, notas }
+  };
+  msg.className='msg'; msg.textContent='Enviando pedido...';
+  try{
+    const pedido = await api('/api/pedidos', { method:'POST', body: JSON.stringify(payload) });
+    document.getElementById('checkout-form').classList.remove('show');
+    document.getElementById('confirmacion-detalle').textContent =
+      `Pedido #${pedido.id} por $${Number(pedido.total).toFixed(2)}. Te vamos a contactar al ${telefono} para coordinar el pago y la entrega.`;
+    document.getElementById('confirmacion').classList.add('show');
+    document.getElementById('cart-footer').style.display='none';
+    carrito = {}; renderCarrito(); render();
+  }catch(e){
+    msg.className='msg err'; msg.textContent = e.message || 'No se pudo enviar el pedido. Probá de nuevo.';
+  }
+}
+
+cargarPagina(1);
+</script>
+</body>
+</html>
